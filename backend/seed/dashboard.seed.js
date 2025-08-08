@@ -36,6 +36,6 @@ mongoose.connect(process.env.MONGO_URI).then(async () => {
     generated_on: new Date(),
   });
 
-  console.log("✅ Dashboard data seeded with expanded dummy values");
+  console.log("Dashboard data seeded with expanded dummy values");
   process.exit();
 });

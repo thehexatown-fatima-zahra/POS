@@ -1,16 +1,23 @@
 const Joi = require("joi");
 
 const loginSchema = Joi.object({
-  email: Joi.string().email().required().messages({
-    "string.email": "Please provide a valid email address",
-    "any.required": "Email is required",
-  }),
-  password: Joi.string().min(6).required().messages({
-    "string.min": "Password must be at least 6 characters",
-    "any.required": "Password is required",
-  }),
+  email: Joi.string().email().required(),
+  password: Joi.string().min(6).required(),
+});
+
+const registerSchema = Joi.object({
+  name: Joi.string().required(),
+  email: Joi.string().email().required(),
+  password: Joi.string().min(6).required(),
+  role: Joi.string().valid("admin", "subadmin").optional(),
+});
+
+const forgotPasswordSchema = Joi.object({
+  email: Joi.string().email().required(),
 });
 
 module.exports = {
   loginSchema,
+  registerSchema,
+  forgotPasswordSchema,
 };

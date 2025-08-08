@@ -5,7 +5,7 @@ require("dotenv").config();
 const User = require("../models/user");
 
 mongoose.connect(process.env.MONGO_URI).then(async () => {
-  await User.deleteMany(); // Optional: remove old users
+  await User.deleteMany();
 
   const hashedPassword = await bcrypt.hash("admin123", 10);
 
@@ -13,9 +13,9 @@ mongoose.connect(process.env.MONGO_URI).then(async () => {
     name: "Admin",
     email: "admin@admin.com",
     password: hashedPassword,
-    role: "admin", // very important for RBAC
+    role: "admin",
   });
 
-  console.log("✅ Admin user seeded");
+  console.log(" Admin user seeded");
   process.exit();
 });

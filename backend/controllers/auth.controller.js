@@ -1,25 +1,20 @@
-const bcrypt = require("bcryptjs");
-const User = require("../models/user");
-const { generateToken } = require("../utils/token");
+const catchAsync = require("../utils/catchAsync");
+const authService = require("../services/auth.service");
 
-exports.login = async (req, res) => {
+exports.register = catchAsync(async (req, res) => {
+  const { name, email, password } = req.body;
+  const data = await authService.register(name, email, password);
+  res.status(201).json({ message: "Registered successfully", ...data });
+});
+
+exports.login = catchAsync(async (req, res) => {
   const { email, password } = req.body;
+  const data = await authService.login(email, password);
+  res.json(data);
+});
 
-  try {
-    const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ message: "Invalid credentials" });
-
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch)
-      return res.status(400).json({ message: "Invalid credentials" });
-
-    const token = generateToken({ id: user._id, role: user.role });
-
-    res.json({
-      token,
-      user: { name: user.name, email: user.email, role: user.role },
-    });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-};
+exports.forgotPassword = catchAsync(async (req, res) => {
+  const { email } = req.body;
+  const response = await authService.forgotPassword(email);
+  res.json(response);
+});
