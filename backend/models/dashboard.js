@@ -5,8 +5,16 @@ const dashboardSchema = new mongoose.Schema({
   monthlyRevenue: Number,
   tableOccupancy: String,
   popularDishes: [String],
-  salesGraphData: [Object],
-  revenueGraphData: [Object],
+  salesGraphData: {
+    daily: [Object],
+    weekly: [Object],
+    monthly: [Object],
+  },
+  revenueGraphData: {
+    daily: [Object],
+    weekly: [Object],
+    monthly: [Object],
+  },
   generated_on: Date,
 });
 

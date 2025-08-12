@@ -27,8 +27,9 @@ exports.register = async (name, email, password) => {
   };
 };
 
-exports.login = async (email, password) => {
-  const user = await User.findOne({ email });
+exports.login = async (name, password) => {
+  const user = await User.findOne({ name });
+  console.log("user in baceknd ", user);
   if (!user) throw new ApiError(400, "Invalid credentials");
 
   const isMatch = await bcrypt.compare(password, user.password);
@@ -48,8 +49,8 @@ exports.forgotPassword = async (email) => {
   const resetToken = crypto.randomBytes(32).toString("hex");
   const resetTokenExpiry = Date.now() + 60 * 60 * 1000;
 
-  user.resetPasswordToken = resetToken;
-  user.resetPasswordExpires = resetTokenExpiry;
+  user.resetToken = resetToken;
+  user.resetTokenExpires = resetTokenExpiry;
   await user.save();
 
   const resetLink = `${FRONTEND_URL}/reset-password/${resetToken}`;
@@ -67,4 +68,23 @@ exports.forgotPassword = async (email) => {
   });
 
   return { message: "Password reset email sent." };
+};
+
+exports.resetPassword = async (token, newPassword) => {
+  const user = await User.findOne({
+    resetToken: token,
+    resetTokenExpires: { $gt: Date.now() },
+  });
+
+  if (!user) throw new ApiError(400, "Invalid or expired token");
+
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+  user.password = hashedPassword;
+
+  user.resetToken = undefined;
+  user.resetTokenExpires = undefined;
+
+  await user.save();
+
+  return { message: "Password reset successfully" };
 };

@@ -8,13 +8,22 @@ exports.register = catchAsync(async (req, res) => {
 });
 
 exports.login = catchAsync(async (req, res) => {
-  const { email, password } = req.body;
-  const data = await authService.login(email, password);
+  const { name, password } = req.body;
+  const data = await authService.login(name, password);
   res.json(data);
 });
 
 exports.forgotPassword = catchAsync(async (req, res) => {
   const { email } = req.body;
   const response = await authService.forgotPassword(email);
+  res.json(response);
+});
+
+exports.resetPassword = catchAsync(async (req, res) => {
+  const { token } = req.params;
+  const { password } = req.body;
+  console.log("toekn", token);
+  console.log("password", password);
+  const response = await authService.resetPassword(token, password);
   res.json(response);
 });
