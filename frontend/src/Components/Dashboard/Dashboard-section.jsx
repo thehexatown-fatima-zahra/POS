@@ -75,7 +75,7 @@ export default function Dashboard() {
     <div className="min-h-screen flex bg-[#0f1112] text-white">
         <Sidebar isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
 
-  <main className="flex-1 p-4 md:p-8 overflow-y-auto max-h-screen">
+        <main className="flex-1 p-4 md:p-8 overflow-y-auto max-h-screen">
          <Header onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} />
 
         <div className="flex flex-col lg:flex-row gap-4 mb-6">

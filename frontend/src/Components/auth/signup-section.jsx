@@ -6,7 +6,7 @@ import { register } from "@/services/auth/signup";
 
 export default function SignupPage() {
   const [form, setForm] = useState({
-    username: "",
+    name: "",
     email: "",
     password: "",
   });
@@ -23,7 +23,7 @@ export default function SignupPage() {
   async function handleSignup(e) {
     e.preventDefault();
     try {
-      const data = await register(form.username, form.email, form.password);
+      const data = await register(form.name, form.email, form.password);
       localStorage.setItem("token", data.token);
       router.replace("/Dashboard");
     } catch (err) {
@@ -49,8 +49,8 @@ export default function SignupPage() {
           <span className="text-sm text-white">Username</span>
           <input
             type="text"
-            value={form.username}
-            onChange={(e) => setForm({ ...form, username: e.target.value })}
+            value={form.name}
+            onChange={(e) => setForm({ ...form, name: e.target.value })}
             className="placeholder-[#777979] mt-1 w-full p-3 rounded-md bg-transparent border border-gray-700 text-white focus:outline-none focus:border-[#FAC1D9]"
             placeholder="Enter username"
           />
