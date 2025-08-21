@@ -93,17 +93,32 @@ export default function Dashboard() {
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold">Overview ({range})</h2>
             <div className="flex items-center gap-2">
-              <div className="hidden sm:flex items-center gap-4 bg-[#0f1112] p-1 rounded-md">
-                {['Monthly', 'Daily', 'Weekly'].map(x => (
-                  <button
-                    key={x}
-                    onClick={() => setRange(x)}
-                    className={`px-3 py-1 rounded-md text-sm ${range === x ? 'bg-pink-200 text-black' : 'text-gray-400'}`}
-                  >
-                    {x}
-                  </button>
-                ))}
-              </div>
+              <div className="flex items-center gap-2">
+  <div className="hidden sm:flex items-center gap-4 bg-[#0f1112] p-1 rounded-md">
+    {['Monthly', 'Daily', 'Weekly'].map(x => (
+      <button
+        key={x}
+        onClick={() => setRange(x)}
+        className={`px-3 py-1 rounded-md text-sm ${range === x ? 'bg-pink-200 text-black' : 'text-gray-400'}`}
+      >
+        {x}
+      </button>
+    ))}
+  </div>
+
+  <div className="sm:hidden">
+    <select
+      value={range}
+      onChange={(e) => setRange(e.target.value)}
+      className="bg-[#0f1112] text-gray-400 px-3 py-2 rounded-md text-sm"
+    >
+      {['Monthly', 'Daily', 'Weekly'].map(x => (
+        <option key={x} value={x}>{x}</option>
+      ))}
+    </select>
+  </div>
+</div>
+
               <button className="py-2 px-4 bg-white/10 rounded-md text-sm text-[#FAC1D9] flex items-center gap-2">
                 <img src="download.png" alt="" className="w-4 h-4" />
                 Export
